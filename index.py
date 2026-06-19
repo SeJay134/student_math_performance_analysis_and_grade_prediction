@@ -160,3 +160,69 @@ print(f'score_q4: {score_q4:.4f} \n')
 
 # This is expected based on exploratory analysis, since stronger predictors 
 # like G1 and G2 showed much higher correlations with G3.
+
+df_clean = df_G3_filtered
+
+feature_cols = ["failures", "Medu", "Fedu", "studytime", "higher", "schoolsup",
+                "internet", "sex", "freetime", "activities", "traveltime"]
+X = df_clean[feature_cols].values
+y = df_clean['G3'].values
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+print('Slope_q5:', model.coef_[0])
+print('Intercept_q5:', model.intercept_, '\n')
+
+rmse_q5 = np.sqrt(np.mean((y_pred - y_test) ** 2))
+print(f'rmse_q5: {rmse_q5:.4f}')
+score_q5 = model.score(X_test, y_test)
+print(f'score_q5: {score_q5:.4f} \n')
+
+for name, coef in zip(feature_cols, model.coef_):
+    print(f'{name:12s}: {coef:+.3f}')
+
+# markdown
+# Adding more features improved the model performance slightly.
+# R² increased from 0.0895 to 0.1539, meaning the model explains more variance in G3.
+
+# schoolsup -2.062 Students with school support tend to have lower grades
+# internet +0.834 Internet access slightly improves performance
+# activities -0.009 No meaningful effect
+
+# schoolsup (−2.062)
+# This is the most surprising result.
+# Intuitively, school support should improve performance, but the model shows a strong negative effect.
+# A likely explanation is that students who receive support are already struggling, so the variable reflects underlying difficulty rather than causing lower grades.
+
+# internet (+0.834)
+# Slightly positive effect, which makes sense (access to resources), but the effect is not very strong.
+
+# activities (~0)
+# Almost no effect, which suggests extracurricular activities neither help nor harm grades significantly.
+
+# Train R² and Test R² are relatively close (no large gap).
+# This suggests the model is not heavily overfitting.
+
+predict_q6 = model.predict(X_test)
+x = predict_q6
+y = y_test
+
+line_min_q6 = min(min(predict_q6), min(y_test))
+line_max_q6 = max(max(predict_q6), max(y_test))
+
+line_x_q6 = np.linspace(line_min_q6, line_max_q6, 100)
+
+plt.figure(figsize=(8, 6))
+plt.scatter(x, y, alpha=0.5)
+plt.plot(line_x_q6, line_x_q6, color='black', linestyle='--')
+plt.title('Predicted vs Actual (Full Model)')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.savefig('outputs/predicted_vs_actual.png', dpi=300)
+plt.show()
