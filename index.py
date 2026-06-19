@@ -258,3 +258,50 @@ plt.show()
 # A likely explanation is that students who receive support are already struggling, 
 # so this variable reflects underlying difficulty rather than causing lower grades.
 
+df_clean_G1 = df_G3_filtered
+
+feature_cols_G1 = ['failures', 'Medu', 'Fedu', 'studytime', 'higher', 'schoolsup',
+                'internet', 'sex', 'freetime', 'activities', 'traveltime', 'G1']
+X_G1 = df_clean_G1[feature_cols_G1].values
+y_G1 = df_clean_G1['G3'].values
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_G1, y_G1, test_size=0.2, random_state=42
+)
+
+model_G1 = LinearRegression()
+model_G1.fit(X_train, y_train)
+y_pred_G1 = model_G1.predict(X_test)
+
+print('Slope_G1:', model_G1.coef_[0])
+print('Intercept_G1:', model_G1.intercept_, '\n')
+
+rmse_G1 = np.sqrt(np.mean((y_pred_G1 - y_test) ** 2))
+print(f'rmse_G1: {rmse_G1:.4f}')
+score_G1 = model_G1.score(X_test, y_test)
+print(f'score_G1: {score_G1:.4f} \n')
+
+for name, coef in zip(feature_cols_G1, model_G1.coef_):
+    print(f'{name:12s}: {coef:+.3f}')
+
+# markdown
+# No, a high R² does not mean that G1 causes G3.
+# G1 is simply an earlier grade, so it is naturally very strongly correlated with the final grade.
+# This is a case of correlation, not causation.
+
+# Yes, the model is useful for prediction once G1 is available, because it achieves a high R² (around 0.8).
+# However, it is not very useful for early intervention, since G1 is already a strong indicator of performance.
+# By the time G1 is known, it may already be late to help struggling students.
+
+# Educators should build models using features that are available before G1, such as:
+# study time
+# past failures
+# absences
+# family and support factors
+
+# G1 is a very strong predictor because it has already been observed earlier in the course. 
+# It reflects the student’s performance at a previous stage, 
+# so it is naturally highly correlated with the final grade (G3). 
+# This is why the model shows much better results — it is using information from 
+# an earlier evaluation of the same learning process, rather than predicting purely 
+# from independent factors.
