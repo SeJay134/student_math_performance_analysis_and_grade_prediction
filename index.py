@@ -226,3 +226,35 @@ plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.savefig('outputs/predicted_vs_actual.png', dpi=300)
 plt.show()
+
+# markdown
+# The error appears to be roughly uniform across grade levels, 
+# although there may be slightly more variation at higher grades. 
+# The points are scattered around the diagonal without a strong pattern of increasing or 
+# decreasing error.
+
+# A point above the diagonal means the model underestimated the true value (actual > predicted).
+# A point below the diagonal means the model overestimated the true value (predicted > actual).
+
+# The filtered dataset contains N rows (after removing students with G3 = 0).
+# The test set contains approximately 20% of the data.
+
+# The RMSE is approximately 2.86, meaning the model’s predictions are typically off 
+# by about ±3 grade points on a 0–20 scale.
+# This is a relatively large error, indicating that predictions are not very precise.
+# The R² is approximately 0.15, meaning the model explains only about 15% of the variation 
+# in final grades.
+# This indicates that the model has limited predictive power.
+
+# Largest positive coefficient:
+# internet (+0.834)
+# Students with internet access or plans for higher education tend to have higher grades.
+# Largest negative coefficient:
+# schoolsup (−2.062)
+# Students receiving school support tend to have lower grades.
+
+# The most surprising result is the strong negative coefficient for schoolsup.
+# This is unexpected because school support should help students.
+# A likely explanation is that students who receive support are already struggling, 
+# so this variable reflects underlying difficulty rather than causing lower grades.
+
