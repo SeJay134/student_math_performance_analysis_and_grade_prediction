@@ -66,3 +66,15 @@ print('df_corr_not_filtered', df_corr_not_filtered)
 df_corr_filtered = df_G3_filtered['absences'].corr(df_G3_filtered['G3'])
 print('df_corr_filtered', df_corr_filtered)
 
+fig, axs = plt.subplots(1, 2, figsize=(12, 8))
+axs[0].scatter(df['absences'], df['G3'], alpha=0.5)
+axs[0].set_title('Original G3 and absences are not filtered')
+axs[0].set_xlabel('x')
+axs[0].set_ylabel('y')
+
+axs[1].scatter(df_G3_filtered['absences'], df_G3_filtered['G3'], alpha=0.5)
+axs[1].set_title('G3 and absences are filtered')
+axs[1].set_xlabel('x')
+axs[1].set_ylabel('y')
+
+plt.show()
