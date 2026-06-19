@@ -97,3 +97,31 @@ corr_columns_sorted = sorted(corr_columns, key=lambda x: float(x.split(': ')[1])
 for value in corr_columns_sorted:
     print(value)
 
+fig, axs = plt.subplots(1, 2, figsize=(12, 8))
+axs[0].scatter(df_G3_filtered['failures'], df_G3_filtered['G3'], alpha=0.5)
+axs[0].set_title('G3 and failures')
+axs[0].set_xlabel('Failures')
+axs[0].set_ylabel('Final Grade (G3)')
+
+axs[1].scatter(df_G3_filtered['schoolsup'], df_G3_filtered['G3'], alpha=0.5)
+axs[1].set_title('G3 and schoolsup')
+axs[1].set_xlabel('School Support (0/1)')
+axs[1].set_ylabel('Final Grade (G3)')
+plt.tight_layout()
+
+plt.savefig('outputs/g3_Failures_School_Support.png')
+plt.show()
+
+# The strongest predictors of G3 are G2 and G1 (grades from previous assessments).
+# Negative correlations for failures, schoolsup, and absences indicate that 
+# more failures or absences → lower final grade.
+# Small positive correlations (sex, internet, higher) suggest weak influence.
+
+# A negative linear relationship is visible: more failures correspond to lower final grades.
+# Most students with zero or few failures have high grades.
+
+# Most important predictors of G3 are previous grades (G1, G2), failures, schoolsup, and absences.
+# Filtering out G3=0 is important because students who didn’t take the final exam distort 
+# correlations.
+# Least influential features include freetime, activities, and sex.
+
