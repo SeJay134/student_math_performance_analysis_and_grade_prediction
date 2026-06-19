@@ -45,3 +45,24 @@ plt.ylabel('Number of Students')
 plt.savefig('outputs/g3_distribution.png')
 plt.show()
 
+print('df.shape', df.shape)
+df_G3_filtered = df[df['G3'] != 0].copy()
+print('df_G3_filtered', df_G3_filtered.shape)
+
+df_G3_filtered['sex'] = df_G3_filtered['sex'].replace({'F': 0, 'M': 1})
+cols = ['schoolsup', 'internet', 'higher', 'activities']
+for col in cols:
+    df_G3_filtered[col] = df_G3_filtered[col].replace({'yes': 1, 'no': 0})
+
+print('df_G3_filtered.info')
+df_G3_filtered.info()
+
+print('df_G3_filtered.shape\n', df_G3_filtered.shape)
+print('df_G3_filtered.head(5)\n', df_G3_filtered.head(5))
+print('df_G3_filtered.dtypes\n', df_G3_filtered.dtypes)
+
+df_corr_not_filtered = df['absences'].corr(df['G3'])
+print('df_corr_not_filtered', df_corr_not_filtered)
+df_corr_filtered = df_G3_filtered['absences'].corr(df_G3_filtered['G3'])
+print('df_corr_filtered', df_corr_filtered)
+
