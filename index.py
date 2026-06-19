@@ -112,6 +112,7 @@ plt.tight_layout()
 plt.savefig('outputs/g3_Failures_School_Support.png')
 plt.show()
 
+# markdown
 # The strongest predictors of G3 are G2 and G1 (grades from previous assessments).
 # Negative correlations for failures, schoolsup, and absences indicate that 
 # more failures or absences → lower final grade.
@@ -125,3 +126,37 @@ plt.show()
 # correlations.
 # Least influential features include freetime, activities, and sex.
 
+X_q4 = df_G3_filtered[['failures']]
+y_q4 = df_G3_filtered['G3']
+
+X_train_q4, X_test_q4, y_train_q4, y_test_q4 = train_test_split(
+    X_q4, y_q4, test_size=0.2, random_state=42
+)
+
+model_q4 = LinearRegression()
+model_q4.fit(X_train_q4, y_train_q4)
+y_pred_q4 = model_q4.predict(X_test_q4)
+
+print('Slope_q4:', model_q4.coef_[0])
+print('Intercept_q4:', model_q4.intercept_, '\n')
+
+rmse_q4 = np.sqrt(np.mean((y_pred_q4 - y_test_q4) ** 2))
+print(f'rmse_q4: {rmse_q4:.4f}')
+score_q4 = model_q4.score(X_test_q4, y_test_q4)
+print(f'score_q4: {score_q4:.4f} \n')
+
+# markdown
+# The slope is negative, meaning that each additional failure reduces 
+# the final grade by about 1.4 points.
+
+# Since grades are on a 0–20 scale, this is a noticeable but not huge effect.
+# The RMSE shows the average prediction error.
+
+# For example, if RMSE ≈ 3, it means predictions are off by about ±3 grade points, 
+# which is quite large relative to the scale.
+
+# The R² score is relatively low, meaning that failures alone explains only 
+# a small portion of the variation in final grades.
+
+# This is expected based on exploratory analysis, since stronger predictors 
+# like G1 and G2 showed much higher correlations with G3.
