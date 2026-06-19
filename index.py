@@ -78,3 +78,22 @@ axs[1].set_xlabel('x')
 axs[1].set_ylabel('y')
 
 plt.show()
+
+# markdown
+# Students with G3=0 likely didn't take the exam.
+# Many of them have varying numbers of absences, which adds noise.
+# This weakens the correlation between absences and G3 in the original dataset.
+# After removing them, the relationship becomes clearer.
+
+columns = ['sex', 'age', 'Medu', 'Fedu', 'traveltime', 'studytime', 'failures', 'schoolsup', 'internet', 'higher', 'activities', 'absences', 'freetime', 'goout', 'Walc', 'G1', 'G2']
+corr_columns = []
+
+for col in columns:
+    df_corr_col = df_G3_filtered[col].corr(df_G3_filtered['G3'])
+    corr_columns.append(f'{col}: {df_corr_col}')
+    #print(f"{col}: {df_corr_col}")
+
+corr_columns_sorted = sorted(corr_columns, key=lambda x: float(x.split(': ')[1]))
+for value in corr_columns_sorted:
+    print(value)
+
