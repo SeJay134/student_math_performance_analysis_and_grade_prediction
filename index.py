@@ -32,7 +32,7 @@ for count, bin_start in zip(counts, bins[:-1]):
     plt.text(
         x=bin_start + 0.5,
         y=count + 0.2,
-        s=int(count),
+        s=str(int(count)),
         ha='center',
         va='bottom',
         fontsize=9
